@@ -1,0 +1,25 @@
+Project Summary: Speaker Blower / Fan Simulator
+Developer/Assistant: Antigravity (AI Coding Assistant)
+
+Here is a summary of what I did to build this project:
+
+1. Base Application Architecture
+- Created a single-page web application contained entirely within a single `index.html` file so it is easy to run and share without any servers or build steps.
+- Designed a clean, dark-mode user interface using inline CSS.
+
+2. Audio Synthesis (Web Audio API)
+- Wrote pure JavaScript using the native Web Audio API to generate sounds from scratch without needing external audio files.
+- Built a "Classic Noise" generator that creates white noise and runs it through a BiquadFilter (lowpass) to simulate the smooth sound of a fan.
+- Engineered a "Physical Blower" system that uses a low-frequency OscillatorNode (square wave, around 10-60Hz) to force the speaker's physical cone to move back and forth rapidly, displacing actual air.
+
+3. Interactive Controls & UI
+- Added a tabbed navigation system to seamlessly switch between the sound-only mode and the physical-blowing mode without stopping the audio engine.
+- Implemented real-time HTML range sliders that instantly hook into the AudioNodes (GainNodes, Filter frequencies) to let the user manipulate:
+   * Fan speed (pitch/tone)
+   * Volume levels
+   * Physical air-pushing intensity
+   * Air-pushing frequency (Hz)
+- Added an animated play button that visually vibrates when the physical blower mode is active.
+
+4. Documentation
+- Wrote a standard `README.md` file for GitHub detailing features, how to use it, how the Web Audio API tech works under the hood, and hardware safety disclaimers.
