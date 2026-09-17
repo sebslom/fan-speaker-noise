@@ -14,7 +14,22 @@
             background-color: #222;
             color: #eee;
             margin: 0;
+            overflow: hidden; /* Prevent scrollbars during animation */
+            padding: 20px;
+            box-sizing: border-box;
         }
+        
+        /* Easter Egg Animation */
+        body.fly-away {
+            animation: flyAwayAndBack 3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        @keyframes flyAwayAndBack {
+            0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+            40% { transform: translateY(-100vh) scale(0.2) rotate(720deg); opacity: 0; }
+            60% { transform: translateY(-100vh) scale(0.2) rotate(720deg); opacity: 0; }
+            100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+        }
+
         .container {
             background-color: #333;
             padding: 30px;
@@ -22,7 +37,16 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             text-align: center;
             width: 320px;
+            max-height: 90vh;
+            overflow-y: auto;
         }
+
+        /* Scrollbar styling for container */
+        .container::-webkit-scrollbar { width: 8px; }
+        .container::-webkit-scrollbar-track { background: #222; border-radius: 4px; }
+        .container::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
+        .container::-webkit-scrollbar-thumb:hover { background: #777; }
+
         .tabs {
             display: flex;
             margin-bottom: 20px;
@@ -63,7 +87,7 @@
             font-size: 18px;
             border-radius: 5px;
             cursor: pointer;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             transition: background-color 0.3s;
             width: 100%;
             font-weight: bold;
@@ -72,32 +96,69 @@
             background-color: #2ecc71;
         }
         .play-btn.blowing {
-            animation: vibrate 0.1s linear infinite;
+            animation: vibrate-btn 0.1s linear infinite;
         }
-        @keyframes vibrate {
+        @keyframes vibrate-btn {
             0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
+            20% { transform: translate(-2px, 0px) rotate(1deg); }
             40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            60% { transform: translate(-2px, 1px) rotate(0deg); }
             80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(1px, 2px) rotate(0deg); }
             100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
+
+        .pro-btn {
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            width: 100%;
+            font-weight: bold;
+        }
+        .pro-btn.active {
+            background-color: #d35400;
+            box-shadow: 0 0 15px rgba(243, 156, 18, 0.6);
+        }
+        .pro-panel {
+            background: #2c3e50;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 2px solid #f39c12;
+            display: none;
+            animation: slideDown 0.3s ease-out;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .pro-panel h3 {
+            margin-top: 0;
+            font-size: 16px;
+            color: #f39c12;
+            margin-bottom: 15px;
+        }
+
         .slider-container {
-            margin: 20px 0;
+            margin: 15px 0;
             text-align: left;
             background: #444;
             padding: 10px;
             border-radius: 8px;
         }
+        .pro-panel .slider-container {
+            background: #34495e;
+        }
         .slider-container label {
-            display: block;
+            display: flex;
+            justify-content: space-between;
             margin-bottom: 8px;
-            font-size: 14px;
+            font-size: 13px;
         }
         input[type="range"] {
             width: 100%;
@@ -107,23 +168,132 @@
             font-size: 12px;
             color: #f39c12;
             margin-top: 15px;
+            line-height: 1.4;
+        }
+
+        /* --- Animations --- */
+        
+        /* Fan Animation */
+        .fan-container {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px auto;
+            border: 4px solid #555;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #111;
+        }
+        .fan-center {
+            width: 20px;
+            height: 20px;
+            background: #888;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 10;
+        }
+        .fan-blades {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .fan-blades.spinning {
+            animation: spin 0.5s linear infinite;
+        }
+        .blade {
+            position: absolute;
+            width: 20px;
+            height: 45px;
+            background: #7f8c8d;
+            border-radius: 50% 50% 10% 10%;
+            top: 5px;
+            left: 40px;
+            transform-origin: 10px 45px;
+        }
+        .blade:nth-child(2) { transform: rotate(120deg); }
+        .blade:nth-child(3) { transform: rotate(240deg); }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Jet Animation */
+        .jet-container {
+            width: 80px;
+            height: 110px;
+            margin: 0 auto 20px auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .jet-body {
+            width: 40px;
+            height: 60px;
+            background: #95a5a6;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            z-index: 2;
+        }
+        .jet-nozzle {
+            width: 30px;
+            height: 15px;
+            background: #34495e;
+            border-radius: 0 0 10px 10px;
+            position: relative;
+            z-index: 2;
+        }
+        .jet-fire {
+            width: 20px;
+            height: 0px;
+            background: linear-gradient(to bottom, #f39c12, #e74c3c, transparent);
+            border-radius: 0 0 15px 15px;
+            transition: height 0.2s;
+            opacity: 0;
+        }
+        .jet-container.thrusting {
+            animation: rumble 0.1s infinite;
+        }
+        .jet-container.thrusting .jet-fire {
+            height: 45px;
+            opacity: 1;
+            animation: flicker 0.1s infinite alternate;
+        }
+        @keyframes rumble {
+            0% { transform: translate(1px, 1px); }
+            50% { transform: translate(-2px, -1px); }
+            100% { transform: translate(1px, -2px); }
+        }
+        @keyframes flicker {
+            0% { opacity: 0.8; height: 35px; }
+            100% { opacity: 1; height: 50px; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Fan Simulator</h2>
+    <h2 id="appTitle" style="cursor: pointer; transition: color 0.3s; user-select: none;">Fan Simulator</h2>
 
     <div class="tabs">
         <button class="tab active-tab" onclick="switchTab('classic', event)">Classic Noise</button>
         <button class="tab" onclick="switchTab('blower', event)">Physical Blower</button>
     </div>
 
-    <button id="toggleBtn" class="play-btn">Turn On</button>
-
     <!-- Classic Tab Content -->
     <div id="content-classic" class="tab-content active-content">
+        <!-- Visual: Fan -->
+        <div class="fan-container">
+            <div class="fan-center"></div>
+            <div class="fan-blades" id="classicFan">
+                <div class="blade"></div>
+                <div class="blade"></div>
+                <div class="blade"></div>
+            </div>
+        </div>
+
         <div class="slider-container">
             <label for="classicVolume">Power (Volume)</label>
             <input type="range" id="classicVolume" min="0" max="1" step="0.01" value="0.5">
@@ -137,6 +307,13 @@
 
     <!-- Blower Tab Content -->
     <div id="content-blower" class="tab-content">
+        <!-- Visual: Jet Engine -->
+        <div class="jet-container" id="jetEngine">
+            <div class="jet-body"></div>
+            <div class="jet-nozzle"></div>
+            <div class="jet-fire"></div>
+        </div>
+
         <div class="slider-container">
             <label for="masterVolume">Master Power (Overall Volume)</label>
             <input type="range" id="masterVolume" min="0" max="1" step="0.01" value="0.8">
@@ -153,17 +330,75 @@
             <label for="noiseVolumeSlider">Fan Sound Level (Noise)</label>
             <input type="range" id="noiseVolumeSlider" min="0" max="1" step="0.01" value="0.3">
         </div>
-
-        <div class="warning">
-            ⚠️ Warning: High "Air Push Power" uses very low frequencies which causes massive speaker cone movement. Turn up your device volume to feel it!
+    </div>
+    
+    <button id="proModeBtn" class="pro-btn">🚀 Enable PRO Mode</button>
+    
+    <div id="proPanel" class="pro-panel">
+        <h3>PRO Equalizer & Overdrive</h3>
+        <div class="slider-container">
+            <label><span>Low (Bass)</span> <span id="valEqLow">0 dB</span></label>
+            <input type="range" id="eqLowSlider" min="-20" max="20" step="1" value="0">
+        </div>
+        <div class="slider-container">
+            <label><span>Mid</span> <span id="valEqMid">0 dB</span></label>
+            <input type="range" id="eqMidSlider" min="-20" max="20" step="1" value="0">
+        </div>
+        <div class="slider-container">
+            <label><span>High (Treble)</span> <span id="valEqHigh">0 dB</span></label>
+            <input type="range" id="eqHighSlider" min="-20" max="20" step="1" value="0">
+        </div>
+        <div class="slider-container">
+            <label><span>Super Bass Boost</span> <span id="valBassBoost">15 dB</span></label>
+            <input type="range" id="bassBoostSlider" min="0" max="40" step="1" value="15">
+        </div>
+        <div class="slider-container">
+            <label><span>Overdrive Volume Boost</span> <span id="valVolBoost">3x</span></label>
+            <input type="range" id="volBoostSlider" min="1" max="10" step="0.5" value="3">
+        </div>
+        <div class="warning" style="margin-top: 0;">
+            ⚠️ <b>PRO WARNING:</b> High volume multipliers and extreme bass boost can easily distort audio or permanently damage speakers. Use carefully!
         </div>
     </div>
+
+    <button id="toggleBtn" class="play-btn">Turn On</button>
 </div>
 
 <script>
     let audioCtx;
     let isPlaying = false;
     let activeMode = 'classic';
+    let isProMode = false;
+
+    // Master FX Chain
+    let masterFXChain;
+    let eqLow, eqMid, eqHigh, bassBoostNode, volBoostNode;
+
+    // Easter Egg Logic
+    let titleClickCount = 0;
+    const appTitle = document.getElementById('appTitle');
+
+    appTitle.addEventListener('click', () => {
+        titleClickCount++;
+        
+        if (titleClickCount >= 2 && titleClickCount < 10) {
+            const remaining = 10 - titleClickCount;
+            appTitle.textContent = `${remaining} clicks remaining...`;
+            appTitle.style.color = '#e74c3c';
+        } else if (titleClickCount === 10) {
+            // Trigger Easter Egg
+            appTitle.textContent = 'Fan Simulator';
+            appTitle.style.color = '#eee';
+            
+            document.body.classList.add('fly-away');
+            
+            // Stop animation and reset after 3s
+            setTimeout(() => {
+                document.body.classList.remove('fly-away');
+                titleClickCount = 0;
+            }, 3000);
+        }
+    });
 
     // Classic Nodes
     let classicNoiseSource;
@@ -180,6 +415,10 @@
 
     const toggleBtn = document.getElementById('toggleBtn');
     
+    // Visual Elements
+    const classicFan = document.getElementById('classicFan');
+    const jetEngine = document.getElementById('jetEngine');
+
     // Classic Elements
     const classicVolume = document.getElementById('classicVolume');
     const classicSpeed = document.getElementById('classicSpeed');
@@ -190,16 +429,25 @@
     const airPushFreq = document.getElementById('airPushFreq');
     const noiseVolumeSlider = document.getElementById('noiseVolumeSlider');
 
+    // PRO Elements
+    const proModeBtn = document.getElementById('proModeBtn');
+    const proPanel = document.getElementById('proPanel');
+
+    // Update Fan Speed Visuals
+    function updateFanSpeedVisual() {
+        const speedVal = parseInt(classicSpeed.value);
+        const duration = 1.1 - (speedVal / 1000); 
+        classicFan.style.animationDuration = duration + 's';
+    }
+
     function switchTab(mode, event) {
         if (mode === activeMode) return;
         
-        // Stop current audio if playing
         let wasPlaying = isPlaying;
         if (isPlaying) {
             stopAudio();
         }
 
-        // Switch UI
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active-tab'));
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active-content'));
         
@@ -208,7 +456,6 @@
         
         activeMode = mode;
 
-        // Auto restart if it was playing
         if (wasPlaying) {
             startAudio();
         }
@@ -217,9 +464,63 @@
     function initAudioCtx() {
         if (!audioCtx) {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            initMasterFX();
         }
         if (audioCtx.state === 'suspended') {
             audioCtx.resume();
+        }
+    }
+
+    function initMasterFX() {
+        // Equalizer Nodes
+        eqLow = audioCtx.createBiquadFilter();
+        eqLow.type = 'lowshelf';
+        eqLow.frequency.value = 250;
+
+        eqMid = audioCtx.createBiquadFilter();
+        eqMid.type = 'peaking';
+        eqMid.frequency.value = 1000;
+        eqMid.Q.value = 1;
+
+        eqHigh = audioCtx.createBiquadFilter();
+        eqHigh.type = 'highshelf';
+        eqHigh.frequency.value = 4000;
+
+        // Dedicated Bass Boost
+        bassBoostNode = audioCtx.createBiquadFilter();
+        bassBoostNode.type = 'lowshelf';
+        bassBoostNode.frequency.value = 60; // Deep sub-bass range
+
+        // Volume Boost
+        volBoostNode = audioCtx.createGain();
+
+        // Connect Chain: eqLow -> eqMid -> eqHigh -> bassBoost -> volBoost -> speakers
+        eqLow.connect(eqMid);
+        eqMid.connect(eqHigh);
+        eqHigh.connect(bassBoostNode);
+        bassBoostNode.connect(volBoostNode);
+        volBoostNode.connect(audioCtx.destination);
+
+        masterFXChain = eqLow; // entry point
+        updateProSettings();
+    }
+
+    function updateProSettings() {
+        if (!eqLow) return;
+        
+        const t = audioCtx.currentTime;
+        if (isProMode) {
+            eqLow.gain.setValueAtTime(document.getElementById('eqLowSlider').value, t);
+            eqMid.gain.setValueAtTime(document.getElementById('eqMidSlider').value, t);
+            eqHigh.gain.setValueAtTime(document.getElementById('eqHighSlider').value, t);
+            bassBoostNode.gain.setValueAtTime(document.getElementById('bassBoostSlider').value, t);
+            volBoostNode.gain.setValueAtTime(document.getElementById('volBoostSlider').value, t);
+        } else {
+            eqLow.gain.setValueAtTime(0, t);
+            eqMid.gain.setValueAtTime(0, t);
+            eqHigh.gain.setValueAtTime(0, t);
+            bassBoostNode.gain.setValueAtTime(0, t);
+            volBoostNode.gain.setValueAtTime(1, t); // 1 is flat gain
         }
     }
 
@@ -230,9 +531,14 @@
             startClassicAudio();
             toggleBtn.classList.add('active');
             toggleBtn.classList.remove('blowing');
+            classicFan.classList.add('spinning');
+            jetEngine.classList.remove('thrusting');
+            updateFanSpeedVisual();
         } else {
             startBlowerAudio();
             toggleBtn.classList.add('active', 'blowing');
+            jetEngine.classList.add('thrusting');
+            classicFan.classList.remove('spinning');
         }
         
         toggleBtn.textContent = 'Turn Off';
@@ -248,6 +554,8 @@
         
         toggleBtn.textContent = 'Turn On';
         toggleBtn.classList.remove('active', 'blowing');
+        classicFan.classList.remove('spinning');
+        jetEngine.classList.remove('thrusting');
         isPlaying = false;
     }
 
@@ -272,7 +580,7 @@
 
         classicNoiseSource.connect(classicFilterNode);
         classicFilterNode.connect(classicGainNode);
-        classicGainNode.connect(audioCtx.destination);
+        classicGainNode.connect(masterFXChain);
 
         classicNoiseSource.start(0);
     }
@@ -288,7 +596,7 @@
     function startBlowerAudio() {
         blowerMasterGain = audioCtx.createGain();
         blowerMasterGain.gain.value = masterVolume.value;
-        blowerMasterGain.connect(audioCtx.destination);
+        blowerMasterGain.connect(masterFXChain);
 
         blowerPushOscillator = audioCtx.createOscillator();
         blowerPushOscillator.type = 'square';
@@ -347,16 +655,48 @@
         }
     });
 
-    // Classic Sliders
+    // PRO Mode Toggle
+    proModeBtn.addEventListener('click', () => {
+        isProMode = !isProMode;
+        if (isProMode) {
+            proModeBtn.classList.add('active');
+            proModeBtn.textContent = '🚀 PRO Mode: ACTIVE';
+            proPanel.style.display = 'block';
+        } else {
+            proModeBtn.classList.remove('active');
+            proModeBtn.textContent = '🚀 Enable PRO Mode';
+            proPanel.style.display = 'none';
+        }
+        updateProSettings();
+    });
+
+    // Label updates for PRO sliders
+    function bindSliderLabel(sliderId, labelId, suffix) {
+        const slider = document.getElementById(sliderId);
+        const label = document.getElementById(labelId);
+        slider.addEventListener('input', (e) => {
+            label.textContent = e.target.value + suffix;
+            updateProSettings();
+        });
+    }
+
+    bindSliderLabel('eqLowSlider', 'valEqLow', ' dB');
+    bindSliderLabel('eqMidSlider', 'valEqMid', ' dB');
+    bindSliderLabel('eqHighSlider', 'valEqHigh', ' dB');
+    bindSliderLabel('bassBoostSlider', 'valBassBoost', ' dB');
+    bindSliderLabel('volBoostSlider', 'valVolBoost', 'x');
+
     classicVolume.addEventListener('input', (e) => {
         if (classicGainNode) classicGainNode.gain.setValueAtTime(e.target.value, audioCtx.currentTime);
     });
 
     classicSpeed.addEventListener('input', (e) => {
         if (classicFilterNode) classicFilterNode.frequency.setValueAtTime(e.target.value, audioCtx.currentTime);
+        if (isPlaying && activeMode === 'classic') {
+            updateFanSpeedVisual();
+        }
     });
 
-    // Blower Sliders
     masterVolume.addEventListener('input', (e) => {
         if (blowerMasterGain) blowerMasterGain.gain.setValueAtTime(e.target.value, audioCtx.currentTime);
     });
@@ -372,6 +712,8 @@
     noiseVolumeSlider.addEventListener('input', (e) => {
         if (blowerNoiseGain) blowerNoiseGain.gain.setValueAtTime(e.target.value, audioCtx.currentTime);
     });
+
+    updateFanSpeedVisual();
 </script>
 
 </body>
